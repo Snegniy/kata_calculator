@@ -138,7 +138,6 @@ func main() {
 		fmt.Println("Введите значения:")
 		text, _ := input.ReadString('\n')
 		data := strings.Split(text, " ")
-		fmt.Println(len(data))
 		dataCheck(data)
 	}
 }
