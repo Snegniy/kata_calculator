@@ -23,61 +23,44 @@ func calculate(a, b int, c string) int {
 	}
 }
 
-func romanParse(rez int) {
+func intToRoman(rez int) string {
 	if rez < 1 {
 		fmt.Println("Ошибка: римские цифры могут быть только положительными")
 		os.Exit(1)
 	}
 	var output string
-Loop:
+
 	for rez > 0 {
 		if rez == 100 {
 			output += "C"
 			rez -= 100
-			continue Loop
-		}
-		if rez >= 90 {
+		} else if rez >= 90 {
 			output += "XC"
 			rez -= 90
-			continue Loop
-		}
-		if rez >= 50 {
+		} else if rez >= 50 {
 			output += "L"
 			rez -= 50
-			continue Loop
-		}
-		if rez >= 40 {
+		} else if rez >= 40 {
 			output += "XL"
 			rez -= 40
-			continue Loop
-		}
-		if rez >= 10 {
+		} else if rez >= 10 {
 			output += "X"
 			rez -= 10
-			continue Loop
-		}
-		if rez >= 9 {
+		} else if rez >= 9 {
 			output += "IX"
 			rez -= 9
-			continue Loop
-		}
-		if rez >= 5 {
+		} else if rez >= 5 {
 			output += "V"
 			rez -= 5
-			continue Loop
-		}
-		if rez >= 4 {
+		} else if rez >= 4 {
 			output += "IV"
 			rez -= 4
-			continue Loop
-		}
-		if rez >= 1 {
+		} else if rez >= 1 {
 			output += "I"
 			rez -= 1
-			continue Loop
 		}
 	}
-	fmt.Println(output)
+	return output
 }
 
 func romanCheck(a string) int {
@@ -93,10 +76,11 @@ func romanCheck(a string) int {
 		"IX":   9,
 		"X":    10,
 	}
-	if _, ok := romanNumbers[a]; ok {
-		return romanNumbers[a]
+	a = strings.ToUpper(a)
+	if value, ok := romanNumbers[a]; ok {
+		return value
 	}
-	return -1
+	return 0
 }
 
 func dataCheck(data []string) {
@@ -105,10 +89,8 @@ func dataCheck(data []string) {
 		fmt.Println("Ошибка: неверный формат строки")
 		os.Exit(1)
 	}
-	data[2] = strings.TrimSpace(data[2])
 	a, err := strconv.Atoi(data[0])
 	if err != nil {
-		data[0] = strings.ToUpper(data[0])
 		a = romanCheck(data[0])
 		flag--
 	} else {
@@ -116,7 +98,6 @@ func dataCheck(data []string) {
 	}
 	b, err := strconv.Atoi(data[2])
 	if err != nil {
-		data[2] = strings.ToUpper(data[2])
 		b = romanCheck(data[2])
 		flag--
 	} else {
@@ -125,7 +106,7 @@ func dataCheck(data []string) {
 	if flag == 2 && (a >= 1 && a <= 10) && (b >= 1 && b <= 10) {
 		fmt.Println(calculate(a, b, data[1]))
 	} else if flag == -2 && (a >= 1 && a <= 10) && (b >= 1 && b <= 10) {
-		romanParse(calculate(a, b, data[1]))
+		fmt.Println(intToRoman(calculate(a, b, data[1])))
 	} else {
 		fmt.Println("Ошибка: неверные данные")
 		os.Exit(1)
@@ -137,7 +118,7 @@ func main() {
 	for {
 		fmt.Println("Введите значения:")
 		text, _ := input.ReadString('\n')
-		data := strings.Split(text, " ")
+		data := strings.Fields(text)
 		dataCheck(data)
 	}
 }
