@@ -92,24 +92,21 @@ func dataCheck(data []string) {
 	a, err := strconv.Atoi(data[0])
 	if err != nil {
 		a = romanCheck(data[0])
-		flag--
-	} else {
 		flag++
 	}
 	b, err := strconv.Atoi(data[2])
 	if err != nil {
 		b = romanCheck(data[2])
-		flag--
-	} else {
 		flag++
 	}
-	if flag == 2 && (a >= 1 && a <= 10) && (b >= 1 && b <= 10) {
-		fmt.Println(calculate(a, b, data[1]))
-	} else if flag == -2 && (a >= 1 && a <= 10) && (b >= 1 && b <= 10) {
-		fmt.Println(intToRoman(calculate(a, b, data[1])))
-	} else {
+	if flag != 0 && flag != 2 || (a < 1 || a > 10 || b < 1 || b > 10) {
 		fmt.Println("Ошибка: неверные данные")
 		os.Exit(1)
+	}
+	if flag == 0 {
+		fmt.Println(calculate(a, b, data[1]))
+	} else {
+		fmt.Println(intToRoman(calculate(a, b, data[1])))
 	}
 }
 
